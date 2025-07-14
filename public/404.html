@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Page Not Found</title>
+  </head>
+  <body>
+    <script>
+      // Single Page App 404 fallback
+      sessionStorage.redirect = location.href
+      window.location.href = "/"
+    </script>
+  </body>
+</html>

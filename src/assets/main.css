@@ -1,0 +1,33 @@
+/* src/assets/main.css */
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Fix navbar overlapping content for client layout */
+/* If your client header is fixed, you might still need this for client layouts */
+/* For admin, the .admin-main-content padding-top handles it */
+.client-layout .main-content {
+  /* Assuming a class for client main content */
+  padding-top: 56px; /* Adjust if your client header height is different */
+}
+
+@media (min-width: 768px) {
+  .client-layout .main-content {
+    padding-top: 72px; /* Adjust for larger screens if header grows */
+  }
+}
+
+/* Loading spinner center */
+.spinner-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999; /* Ensure it's on top */
+}
+
+/* Add any other general styles that apply to both client and admin */

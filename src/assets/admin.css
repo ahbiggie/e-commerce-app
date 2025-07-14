@@ -1,0 +1,532 @@
+/* src/assets/admin.css */
+
+/* Base Admin Layout Structure */
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa; /* Light background for main content area */
+  transition: margin-left 0.3s ease; /* For smooth transition on small screens if main content shifts */
+}
+
+/* Sidebar Styles */
+.sidebar {
+  background-color: #2c3a37 !important; /* Dark background as per mockup */
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: fixed; /* Make the sidebar fixed */
+  height: 100vh; /* Take full viewport height */
+  overflow-y: auto; /* Enable scrolling for long content */
+  z-index: 1030; /* Above regular content */
+  transition: width 0.3s ease, left 0.3s ease; /* Smooth transition for width and position */
+  flex-shrink: 0; /* Prevent sidebar from shrinking */
+}
+
+/* Sidebar Header (Logo/Brand section) */
+.sidebar-header-logo {
+  padding-left: 1rem;
+}
+.sidebar-header-logo img {
+  min-width: 40px; /* Ensure image doesn't shrink */
+  min-height: 40px;
+}
+
+/* Sidebar Toggle Button (for medium/large screens, inside sidebar) */
+.sidebar-toggle-button {
+  position: absolute;
+  top: 15px; /* Adjust vertical position */
+  right: -15px; /* Position outside the sidebar slightly */
+  z-index: 1031; /* Above sidebar */
+}
+.sidebar-toggler-btn {
+  background-color: #00bcd4 !important; /* Example accent color */
+  border: 1px solid #00bcd4 !important;
+  border-radius: 50% !important; /* Circular button */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.sidebar-toggler-btn:hover {
+  background-color: #00a4bd !important;
+  border-color: #00a4bd !important;
+}
+
+/* Main Content Wrapper */
+.main-content-wrapper {
+  flex-grow: 1; /* Allow content to take remaining width */
+  padding-top: 70px; /* Space for fixed top header. Adjust based on header height. */
+  transition: margin-left 0.3s ease; /* Smooth transition for margin changes */
+}
+
+.admin-main-content {
+  padding: 1.5rem; /* Padding for the main content area */
+}
+
+/* Specific styling for AdminNav links */
+.sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.75);
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease-in-out, padding 0.3s ease;
+  white-space: nowrap; /* Prevent text wrapping inside nav links */
+  overflow: hidden; /* Hide overflow when text is hidden */
+  text-overflow: ellipsis; /* Add ellipsis if text is cut off (not visible when collapsed, but good practice) */
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  /* Bootstrap default active */
+  background-color: rgba(255, 255, 255, 0.1); /* Lighter hover/active */
+  color: white;
+  border-radius: 0.375rem;
+  margin: 0 10px; /* Small margin to keep it from edge */
+}
+
+/* Specific highlight for "Product" link */
+.sidebar .nav-item-active .nav-link {
+  background-color: #20c997 !important; /* Specific green for active product */
+  color: white !important;
+}
+
+.sidebar .nav-section-title {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8em;
+  text-transform: uppercase;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+}
+
+/* Admin Header specific styling */
+.admin-header {
+  z-index: 1040; /* Ensure header is above sidebar when overlapping */
+  width: calc(100% - 250px); /* Default width: 100% - expanded sidebar */
+  margin-left: 250px; /* Default margin: sidebar width */
+  transition: width 0.3s ease, margin-left 0.3s ease; /* Smooth transitions */
+}
+.admin-header .dropdown-toggle::after {
+  display: none; /* Hide default Bootstrap caret if not desired */
+}
+.admin-header .dropdown-toggle {
+  display: flex;
+  align-items: center;
+}
+
+/* Custom Tooltip for collapsed sidebar icons */
+.sidebar-tooltip {
+  position: absolute;
+  left: calc(100% + 10px); /* Position to the right of the sidebar */
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  z-index: 1050; /* Ensure tooltip is above other elements */
+  pointer-events: none; /* Allow clicks through the tooltip to elements behind it */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Show tooltip on hover over nav-item */
+.sidebar .nav-item:hover .sidebar-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ========================================================== */
+/* RESPONSIVE BEHAVIOR */
+/* ========================================================== */
+
+/* Large Screens (≥ 1200px - Bootstrap's xl breakpoint) */
+/* Sidebar expanded by default (250px) */
+/* Toggle to sidebar-collapsed (80px) */
+@media (min-width: 1200px) {
+  .sidebar {
+    width: 250px; /* Expanded default */
+  }
+
+  .sidebar-collapsed {
+    width: 80px; /* Collapsed width */
+  }
+
+  .main-content-wrapper {
+    margin-left: 250px; /* Initial margin for expanded sidebar */
+  }
+
+  /* Adjust main content margin when sidebar is collapsed */
+  .sidebar-collapsed + .main-content-wrapper {
+    /* Targets the next sibling if sidebar is collapsed */
+    margin-left: 80px;
+  }
+
+  /* Adjust AdminHeader width and margin */
+  .admin-header {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+  }
+
+  /* Adjust AdminHeader when sidebar is collapsed */
+  .sidebar-collapsed + .main-content-wrapper .admin-header {
+    width: calc(100% - 80px);
+    margin-left: 80px;
+  }
+}
+
+/* Medium Screens (768px – 1199px - Bootstrap's md to lg-1 breakpoint) */
+/* Sidebar collapsed by default (80px) */
+/* Toggle expands to 250px or collapses to 80px */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .sidebar {
+    width: 80px; /* Collapsed default */
+  }
+
+  .sidebar:not(.sidebar-collapsed) {
+    /* If not explicitly collapsed, means it's expanded by toggle */
+    width: 250px; /* Expanded width on medium screens */
+  }
+
+  .main-content-wrapper {
+    margin-left: 80px; /* Initial margin for collapsed sidebar */
+  }
+
+  /* Adjust main content margin when sidebar is expanded */
+  /* If sidebar has its default width (80px) it won't have .sidebar-collapsed, so it expands */
+  .sidebar:not(.sidebar-collapsed) + .main-content-wrapper {
+    margin-left: 250px;
+  }
+
+  /* Admin Header always takes full width relative to its container on medium screens. */
+  /* Margin will be handled by .main-content-wrapper */
+  .admin-header {
+    width: calc(100% - 80px); /* Initially fits next to collapsed sidebar */
+    margin-left: 80px;
+  }
+
+  .sidebar:not(.sidebar-collapsed) + .main-content-wrapper .admin-header {
+    width: calc(100% - 250px); /* Fits next to expanded sidebar */
+    margin-left: 250px;
+  }
+}
+
+/* Small Screens (< 768px - Bootstrap's sm breakpoint and below) */
+/* Sidebar is hidden by default. Slides in/out. No main content shift. */
+@media (max-width: 767.98px) {
+  .sidebar {
+    width: 250px; /* Fixed width when open */
+    left: -250px; /* Hidden by default */
+    /* top: 0; */ /* Already set by fixed positioning */
+    /* z-index: 1030; */ /* Already set */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow when open */
+  }
+
+  .sidebar.sidebar-open-sm {
+    /* Class added by AdminLayout when sidebar should be open */
+    left: 0; /* Slide in */
+  }
+
+  /* Main content does not shift margin on small screens */
+  .main-content-wrapper {
+    margin-left: 0;
+    width: 100%; /* Ensure it takes full width */
+  }
+
+  .admin-header {
+    width: 100%; /* Header takes full width */
+    margin-left: 0; /* Header doesn't shift */
+  }
+
+  /* Hide the sidebar toggle button that's inside AdminNav */
+  .sidebar-toggle-button {
+    display: none;
+  }
+
+  /* Optional: Backdrop for small screen sidebar */
+  .admin-wrapper.sidebar-open-sm::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1029; /* Below sidebar, above content */
+  }
+}
+
+/* General link styling for sidebar (applies always) */
+.sidebar .nav-link span {
+  transition: opacity 0.3s ease; /* Smooth opacity for text */
+}
+
+/* Hide text when collapsed, but maintain space for icons */
+.sidebar.sidebar-collapsed .nav-link span {
+  opacity: 0;
+  width: 0; /* Collapse text space */
+  overflow: hidden;
+  pointer-events: none; /* Prevent interaction with hidden text */
+  margin-left: 0 !important; /* Ensure margin is reset */
+}
+
+/* Adjust padding for collapsed icons to be centered */
+.sidebar.sidebar-collapsed .nav-link {
+  padding: 0.75rem 0.5rem; /* More padding on top/bottom, less on sides */
+  justify-content: center; /* Center icon horizontally */
+}
+.sidebar.sidebar-collapsed .nav-link svg {
+  margin-right: 0 !important; /* Remove margin from icon */
+}
+
+/* Hide section titles when collapsed */
+.sidebar.sidebar-collapsed .nav-section-title {
+  display: none;
+}
+
+/* Hide new features card and footer when collapsed */
+.sidebar.sidebar-collapsed .mt-auto,
+.sidebar.sidebar-collapsed .text-center {
+  display: none;
+}
+/* Add Product Page Specific Styles (Enhanced) */
+.add-product-page .nav-tabs .nav-link {
+  border-bottom: 3px solid transparent; /* default */
+}
+.add-product-page .nav-tabs .nav-link.active {
+  border-color: #20c997 !important; /* Green border for active tab */
+  color: #20c997 !important; /* Green text for active tab */
+  background-color: transparent !important;
+}
+
+/* Main Image Upload Area */
+.add-product-page .main-image-container {
+  min-height: 180px; /* Ensure space even if no image */
+  display: flex; /* For centering placeholder */
+  align-items: center;
+  justify-content: center;
+}
+
+.add-product-page .main-image-upload-placeholder {
+  width: 100%;
+  height: 150px; /* Matching image preview size */
+  border: 2px dashed #ced4da;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.add-product-page .main-image-upload-placeholder.drag-over,
+.add-product-page .image-upload-box.drag-over {
+  border-color: #007bff;
+  background-color: #e9f5ff; /* Light blue background when dragging over */
+}
+
+.add-product-page .main-image-preview {
+  position: relative;
+  display: inline-block;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for image */
+}
+
+.add-product-page .main-image-preview .image-actions {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  gap: 5px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.add-product-page .main-image-preview:hover .image-actions {
+  opacity: 1;
+}
+
+.add-product-page .image-actions .btn {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.add-product-page .image-actions .btn:hover {
+  background-color: white;
+}
+
+/* Image Upload Grid */
+.add-product-page .image-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(100px, 1fr)
+  ); /* Adjusted for more flexible grid */
+  gap: 10px;
+}
+
+.add-product-page .image-upload-box {
+  height: 100px;
+  min-width: 100px;
+  border: 2px dashed #ced4da;
+  color: #6c757d;
+  font-size: 0.8rem;
+  text-align: center;
+  transition: border-color 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden; /* Ensure image fits */
+}
+
+.add-product-page .image-upload-box.has-image {
+  border: 1px solid #e0e0e0; /* Solid border if image exists */
+}
+
+.add-product-page .image-upload-box:hover:not(.has-image) {
+  border-color: #007bff;
+}
+
+.add-product-page .image-upload-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Overlay for action buttons on small image boxes */
+.add-product-page .image-upload-box .image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 1; /* Ensure overlay is above image */
+}
+
+.add-product-page .image-upload-box:hover .image-overlay {
+  opacity: 1;
+}
+
+.add-product-page .image-upload-box .image-overlay .btn {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  color: #333;
+  font-size: 0.75rem;
+}
+.add-product-page .image-upload-box .image-overlay .btn:hover {
+  background-color: white;
+}
+
+/* Specific styling for small text below inputs */
+.add-product-page .form-text {
+  font-size: 0.75rem;
+}
+
+/* ---------Product Overview styles */
+
+/* Product Overview Page Specific Styles */
+.product-overview-page .product-detail-table td:first-child {
+  width: 200px; /* Adjust as needed for label column width */
+}
+
+.product-overview-page .product-detail-table td {
+  padding-top: 0.75rem; /* Standard Bootstrap table padding */
+  padding-bottom: 0.75rem;
+}
+
+/* Ensure the overview tab link looks active when on overview page */
+.product-overview-page .nav-tabs .nav-link.active {
+  border-color: #20c997 !important;
+  color: #20c997 !important;
+}
+.product-overview-page .nav-tabs .nav-link {
+  border-bottom: 3px solid transparent;
+}
+
+/* Notification Styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 350px; /* Adjust width as needed */
+  background-color: #28a745; /* Success green */
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  z-index: 1050; /* Above most other content */
+  animation: slideInRight 0.5s forwards;
+}
+
+.notification-icon {
+  flex-shrink: 0;
+}
+
+.notification-content {
+  flex-grow: 1;
+}
+
+.notification-title {
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.notification-message {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+.notification-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  padding: 0; /* Remove default button padding */
+  align-self: flex-start; /* Align to top-right of notification */
+}
+
+.notification-close-btn:hover {
+  opacity: 1;
+}
+
+/* Animation for notification */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+/* You might also want a slide out animation, but for now, it just disappears with the unmount */
+
+/* Specific styles for success notification */
+.notification.success-notification {
+  background-color: #20c997; /* Your specific success green from mock-up */
+}
+
+/* Specific styles for warning notification (if you implement it later) */
+.notification.warning-notification {
+  background-color: #ffc107;
+  color: #333; /* Darker text for warning */
+}
+
+/* Specific styles for failed notification (if you implement it later) */
+.notification.failed-notification {
+  background-color: #dc3545;
+}
